@@ -51,7 +51,7 @@ Pour lancer ce projet, vous devez avoir [Love2D](https://love2d.org/) installé 
         ```bash
         love .
         ```
-    * **Alternative (simple) :** Sur Windows, vous pouvez aussi simplement faire glisser le dossier `NomDuDepot` (celui qui contient `main.lua`) sur l'exécutable `love.exe` (situé généralement dans `C:\Program Files\LOVE\`).
+    * **Alternative (simple) :** Sur Windows, vous pouvez aussi simplement faire glisser le dossier `Eidra` (celui qui contient `main.lua`) sur l'exécutable `love.exe` (situé généralement dans `C:\Program Files\LOVE\`).
 
 ## ⚙️ Structure du Projet
 
