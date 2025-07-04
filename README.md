@@ -36,7 +36,7 @@ Pour lancer ce projet, vous devez avoir [Love2D](https://love2d.org/) installé 
 
 1.  **Clonez le dépôt :**
     ```bash
-    git clone [https://github.com/aKelleter/Eidra]([https://github.com/VotreUtilisateurGitHub/NomDuDepot.git](https://github.com/aKelleter/Eidra))
+    git clone https://github.com/aKelleter/Eidra.git
     cd Eidra
     ```
 2.  **Lancez le jeu :**
