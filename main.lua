@@ -1,29 +1,55 @@
+-- Déclaration pour l'analyse statique (par exemple, pour luacheck ou d'autres outils)
+love = love
+
+-- Charger le fichier de configuration
+local config = dofile("config.lua")
+
+-- Déclarer les variables globales ou locales nécessaires
+local gameCanvas
+local gameWidth = config.gameWidth
+local gameHeight = config.gameHeight
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest") -- ESSENTIEL pour le pixel art
 
-    gameWidth = 256
-    gameHeight = 144 -- Votre résolution interne du jeu
-
-    -- === NOUVEAU === Configuration de la fenêtre et du mode d'affichage
-    love.window.setMode(gameWidth * 3, gameHeight * 3, {
-        fullscreen = false,        -- Commence en mode fenêtré
-        resizable = true,          -- Permet le redimensionnement par l'utilisateur
-        vsync = true,              -- Synchronise les images avec le moniteur (évite le "tearing")
-        minwidth = gameWidth,      -- Largeur minimale (votre résolution de base)
-        minheight = gameHeight,    -- Hauteur minimale (votre résolution de base)
-        highdpi = false            -- Important pour le pixel art, ne pas laisser le système doubler les pixels
+    -- Utiliser les paramètres du fichier de configuration pour la fenêtre
+   love.window.setMode(gameWidth * config.initialWindowScale, gameHeight * config.initialWindowScale, {
+        fullscreen = false,
+        resizable = true,
+        vsync = true,
+        minwidth = gameWidth,
+        minheight = gameHeight,
+        highdpi = false
     })
+
+    -- Définir le titre de la fenêtre au cas où setMode ne le prendrait pas toujours en compte directement
+    if config.debugMode then
+        love.window.setTitle(config.windowTitle..' - '..config.version)
+    else
+        love.window.setTitle(config.windowTitle)
+    end
 
     -- Création du canvas pour le rendu à la résolution du jeu
     gameCanvas = love.graphics.newCanvas(gameWidth, gameHeight)
+
+    -- Afficher quelques informations de démarrage (pour le débogage)
+    print("--- Game Initialized ---")
+    print("Game Name: " .. config.gameName)
+    print("Version: " .. config.version)
+    print("Window Title: " .. config.windowTitle)
+    print("Internal Resolution: " .. gameWidth .. "x" .. gameHeight)
+    print("------------------------")
 end
 
 function love.update(dt)
     -- Logique de jeu ici (mouvement du personnage, collisions, etc.)
+    -- Vous pouvez aussi utiliser config.debugMode pour activer/désactiver des fonctionnalités de débogage
+    -- if config.debugMode then
+    --     -- Code de débogage
+    -- end
 end
 
 function love.draw()
-    -- Dessine tout le jeu sur le canvas (votre résolution interne)
     love.graphics.setCanvas(gameCanvas)
     love.graphics.clear(0.2, 0.2, 0.2, 1) -- Couleur de fond du jeu
 
@@ -39,7 +65,7 @@ function love.draw()
 
     local scaleX = math.floor(screenWidth / gameWidth)
     local scaleY = math.floor(screenHeight / gameHeight)
-    local scale = math.min(scaleX, scaleY) -- Pour conserver le ratio 16:9 sans déformer
+    local scale = math.min(scaleX, scaleY)
 
     local scaledWidth = gameWidth * scale
     local scaledHeight = gameHeight * scale
@@ -50,14 +76,15 @@ function love.draw()
     love.graphics.draw(gameCanvas, offsetX, offsetY, 0, scale, scale)
 
     -- Optionnel : Dessiner des informations de débogage sur l'écran principal (hors canvas)
-    -- love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+    if config.debugMode then
+        love.graphics.setColor(1, 1, 1, 1) -- Couleur blanche pour le texte
+        love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+        --love.graphics.print("Version: " .. config.version, 10, 30)
+    end
 end
 
--- === NOUVEAU === Gestion des entrées clavier pour le plein écran
 function love.keypressed(key)
-    if key == "f11" or (key == "return" and love.keyboard.isDown("alt")) then
-        -- Basculer entre le mode fenêtré et le plein écran
-        -- love.window.setFullscreen() sans argument bascule l'état actuel
+    if key == "f11" or (key == "return" and (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt"))) then
         love.window.setFullscreen(not love.window.getFullscreen())
     end
 end
