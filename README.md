@@ -11,7 +11,7 @@
 ### Fonctionnalités Actuelles :
 * **Moteur de rendu Pixel Perfect :** Le jeu est affiché à une résolution interne de `256x144` pixels et mis à l'échelle proprement pour s'adapter aux écrans modernes (2K, 4K), garantissant un rendu pixel art fidèle.
 * **Fenêtre redimensionnable :** La fenêtre du jeu peut être redimensionnée par le joueur.
-* **Basculement Plein Écran :** Utilisez `F11` ou `Alt + Entrée` pour passer en mode plein écran ou revenir en mode fenêtré.
+* **Basculement Plein Écran :** `F11` ou `Alt + Entrée` permet de passer en mode plein écran ou revenir en mode fenêtré.
 * **Structure de base :** Fichier de configuration externe (`config.lua`) pour gérer facilement les paramètres du jeu (nom, titre, version, résolution, etc.).
 
 ### Fonctionnalités Prévues :
@@ -21,7 +21,7 @@
 * Système d'inventaire et d'objets.
 * Ennemis et combats simples.
 * Exploration de donjons et résolution d'énigmes.
-* (Ajoutez ici d'autres idées spécifiques à votre jeu !)
+* ...
 
 ## 🛠 Technologies Utilisées
 
@@ -58,7 +58,7 @@ Pour lancer ce projet, vous devez avoir [Love2D](https://love2d.org/) installé 
 * `main.lua` : Le script principal du jeu, point d'entrée de Love2D.
 * `config.lua` : Fichier de configuration contenant les paramètres globaux du jeu (nom, version, résolution, etc.).
 * `assets/` (à créer) : Dossier pour stocker toutes les ressources du jeu (sprites, tilesets, sons, musiques...).
-* `lib/` (à créer) : Dossier pour les bibliothèques Lua tierces ou vos propres modules de code réutilisables.
+* `lib/` (à créer) : Dossier pour les bibliothèques Lua tierces ou modules interne de code réutilisables.
 
 ## 🤝 Contribution
 
