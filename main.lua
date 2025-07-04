@@ -18,7 +18,7 @@ function love.load()
         vsync = true,
         minwidth = config.gameWidth,
         minheight = config.gameHeight,
-        highdpi = true -- Maintenez highdpi à true pour macOS
+        highdpi = false,
     })
 
     -- Initialiser les modules

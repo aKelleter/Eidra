@@ -4,7 +4,7 @@ local gameName = "Eidra : Forgotten Realms"
 return {
     gameName = gameName,
     windowTitle = gameName,
-    version = "0.0.2-04072025-2200 Alpha",
+    version = "0.0.2-04072025-2205 Alpha",
     author = "Alain Kelleter / Alphakilo Studio",
     
     -- Paramètres d'affichage
