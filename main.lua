@@ -1,90 +1,99 @@
--- Déclaration pour l'analyse statique (par exemple, pour luacheck ou d'autres outils)
-love = love
+-- Déclaration pour l'analyse statique (si vous en avez vraiment besoin, sinon retirez)
+-- love = love
 
 -- Charger le fichier de configuration
 local config = dofile("config.lua")
 
--- Déclarer les variables globales ou locales nécessaires
-local gameCanvas
-local gameWidth = config.gameWidth
-local gameHeight = config.gameHeight
+-- Chargement des modules
+local Translation = require("lib.translation")
+local Renderer = require("lib.renderer")
 
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest") -- ESSENTIEL pour le pixel art
+    love.graphics.setDefaultFilter("nearest", "nearest")
 
-    -- Utiliser les paramètres du fichier de configuration pour la fenêtre
-   love.window.setMode(gameWidth * config.initialWindowScale, gameHeight * config.initialWindowScale, {
+    -- Initialiser la fenêtre Love2D AVANT d'initialiser le Renderer
+    love.window.setMode(config.gameWidth * config.initialWindowScale, config.gameHeight * config.initialWindowScale, {
         fullscreen = false,
         resizable = true,
         vsync = true,
-        minwidth = gameWidth,
-        minheight = gameHeight,
-        highdpi = false
+        minwidth = config.gameWidth,
+        minheight = config.gameHeight,
+        highdpi = true -- Maintenez highdpi à true pour macOS
     })
 
-    -- Définir le titre de la fenêtre au cas où setMode ne le prendrait pas toujours en compte directement
-    if config.debugMode then
-        love.window.setTitle(config.windowTitle..' - '..config.version)
-    else
-        love.window.setTitle(config.windowTitle)
-    end
+    -- Initialiser les modules
+    Translation.init(config) -- Initialiser la traduction avec la configuration    
+    Renderer.init(config)
 
-    -- Création du canvas pour le rendu à la résolution du jeu
-    gameCanvas = love.graphics.newCanvas(gameWidth, gameHeight)
+    -- Initialiser la police pixel
+    local pixelFont = love.graphics.newFont("fonts/m5x7.ttf", 26) -- Mettez votre chemin et taille
+    love.graphics.setFont(pixelFont)
+
+    -- Définir le titre de la fenêtre
+    if config.debugMode then
+        love.window.setTitle(Translation.T("game_title")..' - '..config.version)
+    else
+        love.window.setTitle(Translation.T("game_title"))
+    end
 
     -- Afficher quelques informations de démarrage (pour le débogage)
     print("--- Game Initialized ---")
     print("Game Name: " .. config.gameName)
     print("Version: " .. config.version)
-    print("Window Title: " .. config.windowTitle)
-    print("Internal Resolution: " .. gameWidth .. "x" .. gameHeight)
+    print("Window Title: " .. love.window.getTitle()) -- Récupérez le titre ACTUEL de la fenêtre
+    print("Internal Resolution: " .. Renderer.getGameWidth() .. "x" .. Renderer.getGameHeight())
+    print("Actual window width: " .. love.graphics.getWidth()) -- Vérifier la taille réelle de la fenêtre
+    print("Actual window height: " .. love.graphics.getHeight()) -- Vérifier la taille réelle de la fenêtre
     print("------------------------")
 end
 
 function love.update(dt)
-    -- Logique de jeu ici (mouvement du personnage, collisions, etc.)
-    -- Vous pouvez aussi utiliser config.debugMode pour activer/désactiver des fonctionnalités de débogage
-    -- if config.debugMode then
-    --     -- Code de débogage
-    -- end
+    -- Logique de jeu ici
 end
 
 function love.draw()
-    love.graphics.setCanvas(gameCanvas)
-    love.graphics.clear(0.2, 0.2, 0.2, 1) -- Couleur de fond du jeu
-
-    -- Dessinez ici tous vos éléments de jeu (personnage, tuiles, ennemis...)
-    -- love.graphics.draw(playerImage, playerX, playerY)
-    -- love.graphics.draw(tileQuad, tileX, tileY)
-
-    love.graphics.setCanvas() -- Revenir sur l'écran principal
-
-    -- Mise à l'échelle et centrage du canvas sur l'écran réel du joueur
-    local screenWidth = love.graphics.getWidth()
-    local screenHeight = love.graphics.getHeight()
-
-    local scaleX = math.floor(screenWidth / gameWidth)
-    local scaleY = math.floor(screenHeight / gameHeight)
-    local scale = math.min(scaleX, scaleY)
-
-    local scaledWidth = gameWidth * scale
-    local scaledHeight = gameHeight * scale
-
-    local offsetX = (screenWidth - scaledWidth) / 2
-    local offsetY = (screenHeight - scaledHeight) / 2
-
-    love.graphics.draw(gameCanvas, offsetX, offsetY, 0, scale, scale)
-
-    -- Optionnel : Dessiner des informations de débogage sur l'écran principal (hors canvas)
+    Renderer.draw(function()
+        
+        
+    end)
     if config.debugMode then
-        love.graphics.setColor(1, 1, 1, 1) -- Couleur blanche pour le texte
-        love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
-        --love.graphics.print("Version: " .. config.version, 10, 30)
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 10)
+            love.graphics.print("Window Size: " .. love.graphics.getWidth() .. "x" .. love.graphics.getHeight(), 10, 30)
+            love.graphics.print("Internal Resolution: " .. Renderer.getGameWidth() .. "x" .. Renderer.getGameHeight(), 10, 50)
+            love.graphics.print("Language: " .. Translation.getCurrentLanguage(), 10, 70)
+         
+            
     end
 end
 
 function love.keypressed(key)
     if key == "f11" or (key == "return" and (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt"))) then
         love.window.setFullscreen(not love.window.getFullscreen())
+    end
+
+    if key == "escape" then
+        local response = love.window.showMessageBox(
+            Translation.T("quit_title"),
+            Translation.T("quit_message"),
+            {Translation.T("quit_yes"), Translation.T("quit_no")},
+            "info"
+        )
+        
+        -- Selon vos tests précédents, response == 1 est suffisant.
+        if response == 1 then 
+            love.event.quit()
+        end
+    end
+    
+    if key == "l" and love.keyboard.isDown("lshift") then
+        if config.defaultLanguage == "fr" then
+            Translation.setLanguage("en")
+            config.defaultLanguage = "en"
+        else
+            Translation.setLanguage("fr")
+            config.defaultLanguage = "fr"
+        end
+        love.window.setTitle(Translation.T("game_title"))
     end
 end
