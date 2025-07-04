@@ -66,7 +66,7 @@ Ce projet est un prototype avant le projet définitif mais les suggestions et le
 
 ## 📄 Licence
 
-Ce projet est sous licence [MIT License](LICENSE) - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence [MIT License](https://mit-license.org/) - voir le fichier [LICENSE](https://mit-license.org/) pour plus de détails.
 
 ## 👤 Auteur
 
