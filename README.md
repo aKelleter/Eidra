@@ -4,7 +4,7 @@
 
 ## 🚀 À Propos du Projet
 
-"Eidra : Forgotten Realms" est un projet de jeu 2D de type action-aventure, inspiré par la série légendaire The Legend of Zelda. Mon objectif est de recréer le gameplay captivant et l'exploration de donjons emblématique de **Zelda: A Link to the Past**, tout en adoptant le style artistique charmant et détaillé.
+"Eidra : Forgotten Realms" est un projet de jeu 2D de type action-aventure, inspiré par la série légendaire The Legend of Zelda. Mon objectif est de recréer le gameplay captivant et l'exploration de donjons emblématique de **Zelda: A Link to the Past**, tout en adoptant un style artistique "chibi" et détaillé.
 
 ## ✨ Fonctionnalités (Actuelles & Prévues)
 
