@@ -66,7 +66,9 @@ Ce projet est un prototype avant le projet définitif mais les suggestions et le
 
 ## 📄 Licence
 
-Ce projet est sous licence [MIT License](https://mit-license.org/) - voir le fichier [LICENSE](https://mit-license.org/) pour plus de détails.
+Le code source de ce projet est sous licence [MIT License](LICENSE) - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+**ATTENTION :** Les assets graphiques, sonores, musicaux, ainsi que l'histoire, les personnages, le nom du jeu "Eidra : Forgotten Realms", et tout contenu créatif non-code sont **la propriété exclusive de [Alain Kelleter/Alphakilo Studio]** et ne sont *pas* couverts par la licence MIT. Ils sont protégés par le droit d'auteur et ne peuvent être utilisés, reproduits ou distribués sans permission explicite.
 
 ## 👤 Auteur
 
